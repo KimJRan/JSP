@@ -9,6 +9,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Servlet Filter implementation class EncodingFilter
@@ -41,7 +42,10 @@ public class EncodingFilter extends HttpFilter implements Filter {
 		System.out.println("doFilter 호출");
 		
 		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
+		
+		String context = ((HttpServletRequest)request).getContextPath();
+		String pathinfo = ((HttpServletRequest)request).getRequestURI();
+		String realPath = request.getRealPath( pathinfo);
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
